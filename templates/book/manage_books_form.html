@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+</head>
+<body>
+  <form action="/" id="searchForm">
+   {{ form.as_p }}
+   <input type="submit" value="Search" />
+  </form>
+  <!-- the result of the search will be rendered inside this div -->
+  <div id="result"></div>
+
+<script>
+  /* attach a submit handler to the form */
+  $("#searchForm").submit(function(event) {
+
+    /* stop form from submitting normally */
+    event.preventDefault(); 
+        
+    // Assign handlers immediately after making the request,
+    // and remember the jqxhr object for this request
+    //var jqxhr = $.post("http://localhost:8000/api/author/", { id_first_name: "John", id_last_name: "doe", id_email: "asdf@sf.com" }, function() {
+    
+    var jqxhr = $.ajax({
+                 url: "http://minidoe:8000/api/author/",
+                 type: 'POST',
+                 contentType: 'application/json',
+                 data: JSON.stringify($("#searchForm")),
+                 dataType: 'json',
+                 processData: false 
+    })
+    .success(function() { alert("second success"); })
+    .error(function() { alert("error"); })
+    .complete(function() { alert("complete"); });
+
+    // perform other work here ...
+
+    // Set another completion function for the request above
+    jqxhr.complete(function(){ alert("second complete"); });
+      }
+    );
+
+</script>
+
+</body>
+</html>

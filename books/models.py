@@ -29,7 +29,7 @@ class Book(models.Model):
     def __unicode__(self):
         return self.title
     
-    
+
 class AuthorForm(ModelForm):
     class Meta:
         model = Author

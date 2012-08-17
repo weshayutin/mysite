@@ -4,16 +4,23 @@ admin.autodiscover()
 from django.views.generic.simple import direct_to_template
 
 from mysite.views import hello, current_datetime, hours_ahead
-from books.views import search_form, search, add, manage_authors
+from books.views import search_form, search, add, manage_authors_formset, manage_authors_form
 from contact.views import contact
 from mysite.views import display_meta
 from ajaxContact.views import contact_form
+from books.api import AuthorResource
+from tastypie.api import Api
+from django.conf.urls.defaults import *
 
 
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
 # admin.autodiscover()
+#author_resource = AuthorResource()
+v1_api = Api(api_name='v1')
+v1_api.register(AuthorResource())
+author_resource = AuthorResource()
 
 urlpatterns = patterns('',
     # Examples:
@@ -32,8 +39,11 @@ urlpatterns = patterns('',
     ('^meta/$', display_meta),
     (r'^search-form/$', search_form),
     (r'^search/$', search),
-    (r'^add/$', manage_authors),
+    (r'^manage_authors_formset/$', manage_authors_formset),
+    (r'^manage_authors_form/$', manage_authors_form),
     (r'^contact_old/$', contact),
+    (r'^thanks/$', direct_to_template, {'template': 'thanks.html'}),
+    (r'^api/', include(author_resource.urls)),
 )
 
 '''

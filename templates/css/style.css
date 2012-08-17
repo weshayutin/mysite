@@ -1,8 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<html lang="en">
-<head>
-    <title>{% block title %}{% endblock %}</title>
-<style type="text/css">
+ <style type="text/css">
 body
   { font-family: Arial, Verdana, Helvetica, sans-serif; }
 form
@@ -29,10 +25,6 @@ input[type="submit"]
     clear: both;
     width: auto;
     margin-bottom: 1em;
-    margin-left: 25em;
+    margin-left: 8em;
     }
 </style>
-</head>
-<b>SPLICE RULZ </b>
-</body>
-</html>

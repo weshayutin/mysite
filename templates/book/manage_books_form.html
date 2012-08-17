@@ -1,47 +1,57 @@
-<!DOCTYPE html>
-<html>
+{% include "base.html" %}
 <head>
   <script src="http://code.jquery.com/jquery-latest.js"></script>
 </head>
 <body>
-  <form action="/" id="searchForm">
+
+
+  <form action="/" id="authorForm">
    {{ form.as_p }}
-   <input type="submit" value="Search" />
+   <input type="submit" value="Submit" />
   </form>
-  <!-- the result of the search will be rendered inside this div -->
-  <div id="result"></div>
+
 
 <script>
-  /* attach a submit handler to the form */
-  $("#searchForm").submit(function(event) {
+  $("#authorForm").submit(function(event) {
 
     /* stop form from submitting normally */
     event.preventDefault(); 
-        
-    // Assign handlers immediately after making the request,
-    // and remember the jqxhr object for this request
-    //var jqxhr = $.post("http://localhost:8000/api/author/", { id_first_name: "John", id_last_name: "doe", id_email: "asdf@sf.com" }, function() {
+
+    //this doesn't work :(     
+    //var data = JSON.stringify($("#authorForm").serializeArrary());
+
+    //including the doc.get in the JSON.stringify does not work
+    var fn = document.getElementById("id_first_name").value;
+    var ln = document.getElementById("id_last_name").value;
+    var em = document.getElementById("id_email").value;
+    
+    var data = JSON.stringify({
+    "first_name": fn,
+    "last_name": ln,
+    "email": em,
+    });
     
     var jqxhr = $.ajax({
-                 url: "http://minidoe:8000/api/author/",
+                 url: "/api/author/",
                  type: 'POST',
                  contentType: 'application/json',
-                 data: JSON.stringify($("#searchForm")),
+                 data: data,
                  dataType: 'json',
                  processData: false 
     })
-    .success(function() { alert("second success"); })
+    
+    //debug stuff
+    //.success(function() { alert("second success"); })
     .error(function() { alert("error"); })
-    .complete(function() { alert("complete"); });
+    //.complete(function() { alert("complete"); });
 
-    // perform other work here ...
-
-    // Set another completion function for the request above
-    jqxhr.complete(function(){ alert("second complete"); });
+    // debug
+    //jqxhr.complete(function(){ alert("second complete"); });
+    //finish
+    jqxhr.complete(function(){ alert("success! You will be redirected"); window.location="thanks" });
       }
     );
 
 </script>
-
 </body>
 </html>

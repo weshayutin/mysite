@@ -2,12 +2,8 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 admin.autodiscover()
 from django.views.generic.simple import direct_to_template
+from books.views import manage_authors_formset, manage_authors_form
 
-from mysite.views import hello, current_datetime, hours_ahead
-from books.views import search_form, search, add, manage_authors_formset, manage_authors_form
-from contact.views import contact
-from mysite.views import display_meta
-from ajaxContact.views import contact_form
 from books.api import AuthorResource
 from tastypie.api import Api
 from django.conf.urls.defaults import *
@@ -32,24 +28,11 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
-    ('^hello/$', hello),
-    ('^hello/(.*)/$', hello),
-    ('^time/$', current_datetime),
-    (r'^time/plus/(\d{1,2})/$', hours_ahead),
-    ('^meta/$', display_meta),
-    (r'^search-form/$', search_form),
-    (r'^search/$', search),
     (r'^manage_authors_formset/$', manage_authors_formset),
     (r'^manage_authors_form/$', manage_authors_form),
-    (r'^contact_old/$', contact),
+    (r'^manage_authors_form/thanks/$', direct_to_template, {'template': 'thanks.html'}),
     (r'^thanks/$', direct_to_template, {'template': 'thanks.html'}),
     (r'^api/', include(author_resource.urls)),
+    (r'^css/style.css$', direct_to_template, {'template': 'css/style.css'}),
 )
 
-'''
-urlpatterns = patterns('ajaxContact.views',
-    url(r'^contact/$', contact_form, name="contact_form"),
-    url(r'^contact/success/$', direct_to_template, {'template': 'contact/thanks.html'},
-        name="contact_success"),
-)
-'''
